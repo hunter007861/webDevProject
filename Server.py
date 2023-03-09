@@ -1,7 +1,9 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 from pymongo import MongoClient
+import bson.binary
 from werkzeug.security import generate_password_hash, check_password_hash
-
+from werkzeug.utils import secure_filename
+import io
 app = Flask(__name__)
 
 # connecting to the mongoDb client 
@@ -15,8 +17,7 @@ db  = cluster['RestaurantDB']
 
 # giving the collection name 
 user     = db['user']
-
-
+productImage = db['productImage']
 
 @app.route("/", methods=['GET'])
 def startup():
@@ -63,6 +64,21 @@ def login():
         'user':users
     })
 
+@app.route('/uploadimage', methods=['POST'])
+def upload_image():
+    file = request.files['image']
+    filename = secure_filename(file.filename)
+    with file.stream as f:
+        image_data = bson.binary.Binary(f.read())
+    result = productImage.insert_one({'filename': filename, 'image': image_data})
+    return jsonify({'id': str(result.inserted_id)}), 201
+
+@app.route('/getimage/<id>', methods=["GET"])
+def get_image(id):
+    document = productImage.find_one({'_id': bson.objectid.ObjectId(id)})
+    if document is None or 'image' not in document:
+        return 'Image not found', 404
+    return send_file(io.BytesIO(document['image']), mimetype='image/jpeg')
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
