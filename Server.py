@@ -1,9 +1,12 @@
 from flask import Flask, request, jsonify, send_file
 from pymongo import MongoClient
 import bson.binary
+import bson.json_util
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 import io
+from bson import ObjectId
+
 app = Flask(__name__)
 
 # connecting to the mongoDb client 
@@ -18,6 +21,7 @@ db  = cluster['RestaurantDB']
 # giving the collection name 
 user     = db['user']
 productImage = db['productImage']
+products = db['products']
 
 @app.route("/", methods=['GET'])
 def startup():
@@ -79,6 +83,41 @@ def get_image(id):
     if document is None or 'image' not in document:
         return 'Image not found', 404
     return send_file(io.BytesIO(document['image']), mimetype='image/jpeg')
+
+@app.route('/addproduct',methods=['POST'])
+def addProduct():
+    details = request.json
+    products.insert_one(details)
+    return 'Success'
+
+@app.route('/getproducts', methods=['GET'])
+def getProducts():
+    allProducts = list(products.find())
+    data = []
+    for product in allProducts:
+        product['_id'] = str(product['_id'])
+        data.append(product)
+    return jsonify(data)
+
+@app.route('/updateproducts/<id>', methods=['PATCH'])
+def update_data(id):
+    data = request.json
+    document = {'_id': ObjectId(id)}
+    update = {'$set': data}
+    result = products.update_one(document, update)
+    if result.modified_count > 0:
+        return jsonify({'message': 'Product updated successfully'})
+    else:
+        return jsonify({'message': 'No Product found with that ID'})
+
+@app.route('/deleteproducts/<id>', methods=['DELETE'])
+def delete_data(id):
+    document = {'_id': ObjectId(id)}
+    result = products.delete_one(document)
+    if result.deleted_count > 0:
+        return jsonify({'message': 'Document deleted successfully'})
+    else:
+        return jsonify({'message': 'No document found with that ID'})
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
