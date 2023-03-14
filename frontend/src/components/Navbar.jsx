@@ -4,13 +4,14 @@ import PersonIcon from '@mui/icons-material/Person';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 const Navbar = () => {
-    const [showNav,setShowNav]= useState("show")
+    const [showNav,setShowNav]= useState("show");
+
     return (
         <div className='header_section'>
             <div className='container'>
                 <div className='navbar navbar-expand-lg custom_nav-container '>
                     <div className='navbar-brand font1'>
-                        <span>Feane</span>
+                        <span>Crave Cafe</span>
                     </div>
                     <button className="navbar-toggler" type="button" aria-expanded={showNav === "" ?false:true} onClick={()=>{
                         if(showNav===""){
