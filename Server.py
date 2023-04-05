@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, send_file
+from flask_cors import CORS
 from pymongo import MongoClient
 import bson.binary
 import bson.json_util
@@ -8,6 +9,11 @@ import io
 from bson import ObjectId
 
 app = Flask(__name__)
+CORS(app)
+
+# app.config['MONGO_URI'] = 'mongodb+srv://sarveshbhosale111:ay5bsR2dL5ZvlRz5@cluster0.b3hgrqo.mongodb.net/?retryWrites=true&w=majority'
+# # connecting to the mongoDb client 
+# cluster = MongoClient(app.config['MONGO_URI'])
 
 # connecting to the mongoDb client 
 cluster = MongoClient(
@@ -101,6 +107,7 @@ def getProducts():
 
 @app.route('/updateproducts/<id>', methods=['PATCH'])
 def update_data(id):
+    print(id)
     data = request.json
     document = {'_id': ObjectId(id)}
     update = {'$set': data}

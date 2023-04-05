@@ -15,8 +15,7 @@ const Carosel = () => {
                                             Fast Food Restaurant
                                         </h1>
                                         <p>
-                                            Doloremque, itaque aperiam facilis rerum, commodi, temporibus sapiente ad mollitia laborum quam quisquam esse error unde. Tempora ex doloremque, labore, sunt repellat dolore, iste magni quos nihil ducimus libero ipsam.
-                                        </p>
+                                        Fast food restaurants are popular dining destinations that offer quick and convenient meals to customers on the go. They typically feature a menu of affordable, pre-prepared dishes that are ready to serve in a matter of minutes.                                        </p>
                                         <div className="btn-box">
                                             <a href="/" className="btn1">
                                                 Order Now

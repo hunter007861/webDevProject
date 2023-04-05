@@ -1,0 +1,53 @@
+.about_section {
+    background: #222831;
+    color: #ffffff;
+}
+
+.layout_padding {
+    padding: 90px 0;
+}
+
+.about_section .row {
+    align-items: center;
+}
+
+.about_section .img-box {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.about_section .img-box img {
+    width: 100%;
+    max-width: 445px;
+    position: relative;
+    z-index: 2;
+}
+
+.heading_container {        
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.heading_container h2 {
+    position: relative;
+    margin-bottom: 0;
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+h2 {
+    font-family: 'Dancing Script', cursive;
+}
+
+.about_section .detail-box p {
+    margin-top: 15px;
+}
+
+
+@media (max-width: 767px) {
+    .about_section .row {
+        flex-direction: column-reverse;
+    }
+}

@@ -1,0 +1,19 @@
+.table_Container{
+    margin: 25px;
+    padding: 25px;
+    border: 1px solid grey;
+    width: auto;
+    overflow: scroll;
+}
+
+.tb_prodImg{
+    width: 100px;
+}
+
+.addImage{
+    border-radius: 10px;
+    background-color: #d8d8d8;
+    width: 100px;
+    margin-inline: auto;
+    height: 100px;
+}
